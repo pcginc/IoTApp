@@ -12,9 +12,7 @@ import com.ociweb.iot.maker.Hardware;
 public class IoTApp implements FogApp
 {
     
-    public static void main( String[] args ) {
-        FogRuntime.run(new IoTApp());
-    }
+    
     
     
     @Override
