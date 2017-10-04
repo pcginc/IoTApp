@@ -55,7 +55,7 @@ public class IoTBehavior implements AnalogListener, DigitalListener, StartupList
             double full = 1.0 - ((double) value / (double) fullTank);
             percentFull = (int) (full * 100.0);
             // type conversion so you don't divide an integer by integer and get a decimal value
-            if (value == fullTank) {
+            if (value >= fullTank) {
             	percentFull = 100;
             }
             if (percentFull <= 0) {
