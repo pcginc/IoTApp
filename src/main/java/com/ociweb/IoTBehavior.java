@@ -23,6 +23,7 @@ public class IoTBehavior implements AnalogListener, DigitalListener, StartupList
     private final FogCommandChannel channel;
     private boolean startCalibration;
     private StringBuilder builder = new StringBuilder();
+    private int percentFull;
     
     private int fullTank = SimpleAnalogTwig.UltrasonicRanger.range();
     
@@ -41,6 +42,7 @@ public class IoTBehavior implements AnalogListener, DigitalListener, StartupList
 	public void digitalEvent(Port port, long time, long durationMillis, int value) {
 		if (value != 0) {
 			startCalibration = true;
+			percentFull = 0;
 		}
 	}
     
@@ -52,9 +54,11 @@ public class IoTBehavior implements AnalogListener, DigitalListener, StartupList
     	}
          else {
             double full = 1.0 - ((double) value / (double) fullTank);
-            int percentFull = (int) (full * 100.0);
+            percentFull = (int) (full * 100.0);
             // type conversion so you don't divide an integer by integer and get a decimal value
-            
+            if (percentFull <= 0) {
+            	percentFull = 0;
+            }
             builder.setLength(0);
             Appendables.appendFixedDecimalDigits(builder, percentFull, 100);
             
