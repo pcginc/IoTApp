@@ -56,10 +56,10 @@ public class IoTBehavior implements AnalogListener, DigitalListener, StartupList
             percentFull = (int) (full * 100.0);
             // type conversion so you don't divide an integer by integer and get a decimal value
             if (value >= fullTank) {
-            	percentFull = 100;
-            }
-            if (percentFull <= 0) {
             	percentFull = 0;
+            }
+            if (value == 0) {
+            	percentFull = 100;
             }
             builder.setLength(0);
             Appendables.appendFixedDecimalDigits(builder, percentFull, 100);
