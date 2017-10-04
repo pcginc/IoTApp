@@ -19,8 +19,8 @@ import com.ociweb.iot.maker.Port;
 import com.ociweb.pronghorn.util.Appendables;
 
 public class IoTBehavior implements AnalogListener, DigitalListener, StartupListener {
-    
-    private final FogCommandChannel channel;
+   
+	private final FogCommandChannel channel;
     private boolean startCalibration;
     private StringBuilder builder = new StringBuilder();
     private int percentFull;
@@ -36,7 +36,6 @@ public class IoTBehavior implements AnalogListener, DigitalListener, StartupList
     public void startup() {
     	Grove_LCD_RGB.commandForColor(channel, 200, 200, 180);
     }
-    
     
     @Override
 	public void digitalEvent(Port port, long time, long durationMillis, int value) {
@@ -56,6 +55,9 @@ public class IoTBehavior implements AnalogListener, DigitalListener, StartupList
             double full = 1.0 - ((double) value / (double) fullTank);
             percentFull = (int) (full * 100.0);
             // type conversion so you don't divide an integer by integer and get a decimal value
+            if (value == fullTank) {
+            	percentFull = 100;
+            }
             if (percentFull <= 0) {
             	percentFull = 0;
             }
