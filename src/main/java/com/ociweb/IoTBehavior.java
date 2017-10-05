@@ -25,7 +25,7 @@ public class IoTBehavior implements AnalogListener, DigitalListener, StartupList
     private StringBuilder builder = new StringBuilder();
     private int percentFull;
     
-    private int fullTank = SimpleAnalogTwig.UltrasonicRanger.range();
+    private double fullTank = SimpleAnalogTwig.UltrasonicRanger.range();
     
     public IoTBehavior(FogRuntime runtime) {
         
@@ -52,19 +52,21 @@ public class IoTBehavior implements AnalogListener, DigitalListener, StartupList
     		startCalibration = false;
     	}
          else {
-            double full = 1.0 - ((double) value / (double) fullTank);
-            percentFull = (int) (full * 100.0);
+            //double full = 1.0 - ((double) value / (double) fullTank);
+            //percentFull = (int) (full * 100.0);
+            percentFull = (int) (100*((fullTank-(double) value)/fullTank));
             // type conversion so you don't divide an integer by integer and get a decimal value
-            if (value >= fullTank) {
-            	percentFull = 0;
-            }
             if (value == 0) {
             	percentFull = 100;
             }
+            if (value >= fullTank) {
+            	percentFull = 0;
+            }
+     
             builder.setLength(0);
             Appendables.appendFixedDecimalDigits(builder, percentFull, 100);
             
-            builder.append("percent\nfull");
+            builder.append("%\nFull");
            
             Grove_LCD_RGB.commandForText(channel, builder);
             
