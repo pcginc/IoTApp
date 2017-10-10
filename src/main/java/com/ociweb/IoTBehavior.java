@@ -42,6 +42,8 @@ public class IoTBehavior implements AnalogListener, DigitalListener, StartupList
 		if (value != 0) {
 			startCalibration = true;
 			percentFull = 0;
+			Grove_LCD_RGB.commandForText(channel, "Recalibrated\nAdd items now");
+			
 		}
 	}
     
@@ -56,7 +58,7 @@ public class IoTBehavior implements AnalogListener, DigitalListener, StartupList
             //percentFull = (int) (full * 100.0);
             percentFull = (int) (100*((fullTank-(double) value)/fullTank));
             // type conversion so you don't divide an integer by integer and get a decimal value
-            if (value <= 0) {
+            if (value <= 2) {
             	percentFull = 100;
             }
             if (value >= fullTank) {
